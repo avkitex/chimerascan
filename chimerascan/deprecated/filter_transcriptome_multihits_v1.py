@@ -38,7 +38,7 @@ def annotate_multihits(reads, tid_tx_genome_map):
 def filter_multihits(transcript_file, input_bam_file, output_bam_file,
                      max_multihits=1):
     logging.debug("Reading transcript features")
-    transcripts = list(TranscriptFeature.parse(open(transcript_file)))
+    transcripts = list(TranscriptFeature.from_genepred(open(transcript_file)))
     # parse and convert sam -> bam
     inbamfh = pysam.Samfile(input_bam_file, "rb")
     outbamfh = pysam.Samfile(output_bam_file, "wb", template=inbamfh)

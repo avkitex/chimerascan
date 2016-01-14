@@ -164,7 +164,7 @@ def nominate_chimeras(index_dir, isize_dist_file, input_file, output_file,
     # build a lookup table to get genomic intervals from transcripts
     logging.debug("Reading transcript information")
     transcript_feature_file = os.path.join(index_dir, config.TRANSCRIPT_FEATURE_FILE)    
-    transcripts = list(TranscriptFeature.parse(open(transcript_feature_file)))
+    transcripts = list(TranscriptFeature.from_genepred(open(transcript_feature_file)))
     tx_id_map = build_transcript_map(transcripts)
     # open the reference sequence fasta file
     ref_fasta_file = os.path.join(index_dir, config.TRANSCRIPTOME_FASTA_FILE)

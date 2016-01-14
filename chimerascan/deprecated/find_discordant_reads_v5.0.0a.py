@@ -280,7 +280,7 @@ def find_discordant_fragments(input_bam_file,
     # read transcript features
     logging.debug("Reading transcript features")
     transcript_file = os.path.join(index_dir, config.TRANSCRIPT_FEATURE_FILE)
-    transcripts = list(TranscriptFeature.parse(open(transcript_file)))
+    transcripts = list(TranscriptFeature.from_genepred(open(transcript_file)))
     logging.debug("Building transcript lookup tables")
     # build a lookup table from bam tid index to transcript object
     tid_tx_map = build_tid_transcript_map(bamfh, transcripts)

@@ -157,7 +157,7 @@ def main():
     args = parser.parse_args()    
     # read transcript features
     logging.debug("Reading transcript features")
-    transcripts = list(TranscriptFeature.parse(open(args.transcript_file)))
+    transcripts = list(TranscriptFeature.from_genepred(open(args.transcript_file)))
     # run main function
     retcode = write_output(transcripts, args.cluster_shelve_file, 
                            args.cluster_pair_file, args.read_name_file, 

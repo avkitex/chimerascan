@@ -432,7 +432,7 @@ def run_chimerascan(runconfig):
     # read transcripts
     logging.info("Reading transcript features")
     transcript_file = os.path.join(runconfig.index_dir, config.TRANSCRIPT_FEATURE_FILE)
-    transcripts = list(TranscriptFeature.parse(open(transcript_file)))
+    transcripts = list(TranscriptFeature.from_genepred(open(transcript_file)))
     logging.info("\tread %d transcripts" % (len(transcripts)))
     # setup alignment indexes
     genome_index = os.path.join(runconfig.index_dir, config.GENOME_INDEX)

@@ -57,7 +57,7 @@ def discordant_reads_to_bedpe(index_dir, input_bam_file, output_file):
     # build a lookup table to get genomic intervals from transcripts
     logging.debug("Reading transcript features")
     transcript_file = os.path.join(index_dir, config.TRANSCRIPT_FEATURE_FILE)
-    transcripts = list(TranscriptFeature.parse(open(transcript_file)))
+    transcripts = list(TranscriptFeature.from_genepred(open(transcript_file)))
     tid_tx_map = build_tid_transcript_map(bamfh, transcripts)
     outfh = open(output_file, "w")    
     logging.debug("Converting BAM to BEDPE format")

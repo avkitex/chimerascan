@@ -170,7 +170,7 @@ def filter_highest_coverage_isoforms(index_dir, input_file, output_file):
     # read transcripts
     logging.debug("Reading transcripts")
     transcript_file = os.path.join(index_dir, config.TRANSCRIPT_FEATURE_FILE)
-    transcripts = list(TranscriptFeature.parse(open(transcript_file)))
+    transcripts = list(TranscriptFeature.from_genepred(open(transcript_file)))
     # find highest coverage chimeras among isoforms
     kept_chimeras = get_highest_coverage_isoforms(input_file, transcripts)
     num_filtered_chimeras = 0

@@ -335,7 +335,7 @@ def main():
     args = parser.parse_args()
     # read transcript features
     logging.debug("Reading transcript features")
-    transcripts = list(TranscriptFeature.parse(open(args.transcript_feature_file)))
+    transcripts = list(TranscriptFeature.from_genepred(open(args.transcript_feature_file)))
     return transcriptome_to_genome(args.genome_index,
                                    transcripts,
                                    args.input_sam_file, 
