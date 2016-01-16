@@ -19,21 +19,18 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-!!!UPDATED by avkitex 15.01.2016
 '''
 import itertools
 import collections
 import operator
 import gtf
 
-class TranscriptFeature(object):
-    __slots__ = ('chrom', 'tx_start', 'tx_end', 'strand', 'exon_count',
-                 'exons', 'tx_id', 'cluster_id',
-                 'gene_biotype',
+class TranscriptFeature(object):    
+    __slots__ = ('chrom', 'tx_start', 'tx_end', 'strand', 'exon_count',  
+                 'exons', 'tx_id', 'cluster_id', 
+                 'gene_biotype', 
                  'tx_names',
-                 'gene_names',
+                 'gene_names', 
                  'annotation_sources')
 
     def __init__(self):
@@ -44,30 +41,29 @@ class TranscriptFeature(object):
         self.tx_names = []
         self.gene_names = []
         self.annotation_sources = []
-
+        
     def __str__(self):
-        fields = [self.tx_names[0],
-                self.chrom,
-                self.strand,
-                str(self.tx_start),
-                str(self.tx_end),
-                str(self.tx_start),
-                str(self.exon_count),
-                ','.join(map(str, [e[0] for e in self.exons])) + ',',
-                ','.join(map(str, [e[1] for e in self.exons])) + ',',
-                self.gene_names[0],
-                self.gene_biotype,
-                str(self.tx_id),
-                str(self.cluster_id),
-                ','.join(self.annotation_sources) + ',']
+        fields = [self.chrom,
+                  str(self.tx_start),
+                  str(self.tx_end),
+                  str(self.tx_id),
+                  str(self.cluster_id),
+                  self.strand,
+                  str(self.exon_count),
+                  ','.join(map(str, [e[0] for e in self.exons])) + ',',
+                  ','.join(map(str, [e[1] for e in self.exons])) + ',',
+                  self.gene_biotype,
+                  ','.join(self.tx_names) + ',',
+                  ','.join(self.gene_names) + ',',
+                  ','.join(self.annotation_sources) + ',']
         return '\t'.join(fields)
 
     @property
     def introns(self):
         """get tuple of transcript introns"""
-        return tuple((self.exons[i-1][1],self.exons[i][0])
+        return tuple((self.exons[i-1][1],self.exons[i][0]) 
                      for i in xrange(1,len(self.exons)))
-
+    
     @staticmethod
     def from_string(line):
         if not line:
@@ -90,9 +86,9 @@ class TranscriptFeature(object):
         g.gene_biotype = fields[9]
         g.tx_names = fields[10].split(',')[:-1]
         g.gene_names = fields[11].split(',')[:-1]
-        g.annotation_sources = fields[12].split(',')[:-1]
+        g.annotation_sources = fields[12].split(',')[:-1]       
         return g
-
+    
     @staticmethod
     def parse(line_iter):
         for line in line_iter:
@@ -108,14 +104,14 @@ class TranscriptFeature(object):
             if not line:
                 continue
             if not line.strip():
-                continue
+                continue        
             if not line:
-                continue
+                continue    
             if line.startswith("#"):
                 continue
             if line.startswith("track"):
                 continue
-            fields = line.strip().split('\t')
+            fields = line.split('\t')
             # first six fields are required
             g = TranscriptFeature()
             g.tx_names = [fields[0]]
@@ -123,11 +119,11 @@ class TranscriptFeature(object):
             g.strand = fields[2]
             g.tx_start = int(fields[3])
             g.tx_end = int(fields[4])
-            g.exon_count = int(fields[5])
-            exon_starts = map(int, fields[6].split(',')[:-1])
-            exon_ends = map(int, fields[7].split(',')[:-1])
+            g.exon_count = int(fields[7])
+            exon_starts = map(int, fields[8].split(',')[:-1])
+            exon_ends = map(int, fields[9].split(',')[:-1])
             g.exons = zip(exon_starts, exon_ends)
-            g.gene_names = [fields[8]]
+            g.gene_names = [fields[10]]
             g.gene_biotype = "na"
             g.tx_id = cur_transcript_id
             cur_transcript_id += 1
@@ -140,9 +136,9 @@ class TranscriptFeature(object):
             if not line:
                 continue
             if not line.strip():
-                continue
+                continue        
             if not line:
-                continue
+                continue    
             if line.startswith("#"):
                 continue
             if line.startswith("track"):
@@ -154,10 +150,10 @@ class TranscriptFeature(object):
             g.tx_start = int(fields[1])
             g.tx_end = int(fields[2])
             g.tx_names = [fields[3]]
-            g.strand = fields[5]
+            g.strand = fields[5]        
             g.exon_count = int(fields[9])
             g.block_sizes = map(int, fields[10].split(',')[:-1])
-            g.block_starts = map(int, fields[11].split(',')[:-1])
+            g.block_starts = map(int, fields[11].split(',')[:-1])            
             g.exons = []
             for start, size in itertools.izip(g.block_starts, g.block_sizes):
                 g.exons.append((g.tx_start + start, g.tx_start + start + size))
@@ -175,7 +171,7 @@ class TranscriptFeature(object):
                 continue
             if feature.feature_type == "exon":
                 transcript_id = feature.attrs["transcript_id"]
-                chrom_exon_features[feature.seqid][transcript_id].append(feature)
+                chrom_exon_features[feature.seqid][transcript_id].append(feature)               
         transcripts = []
         cur_transcript_id = 1
         for chrom in sorted(chrom_exon_features):
@@ -206,7 +202,8 @@ class TranscriptFeature(object):
                     g.annotation_sources.append(source)
                 else:
                     g.annotation_sources.append(exons[0].source)
-                g.tx_id = cur_transcript_id
+                g.tx_id = cur_transcript_id 
                 cur_transcript_id += 1
                 transcripts.append(g)
         return transcripts
+

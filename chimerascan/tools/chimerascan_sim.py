@@ -208,7 +208,7 @@ def main():
     fastafh = pysam.Fastafile(genome_fasta_file)
     logging.info("Reading transcripts")
     transcript_dict = {}
-    for t in TranscriptFeature.from_genepred(open(transcript_file)):
+    for t in TranscriptFeature.parse(open(transcript_file)):
         transcript_dict[str(t.tx_id)] = t
     logging.info("Generating simulated reads")
     generate_simulated_reads(fastafh,

@@ -56,7 +56,7 @@ def transcript_features_to_fasta(transcript_feature_file, reference_seq_file):
     ref_fa = pysam.Fastafile(reference_seq_file)
     total = 0
     used = 0
-    for g in TranscriptFeature.from_genepred(open(transcript_feature_file)):
+    for g in TranscriptFeature.parse(open(transcript_feature_file)):
         total += 1
         exon_seqs = []
         error_occurred = False

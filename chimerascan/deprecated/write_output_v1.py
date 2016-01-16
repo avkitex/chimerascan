@@ -62,7 +62,7 @@ def write_output(input_file, bam_file, output_file, index_dir):
     # read transcripts
     logging.debug("Reading transcripts")
     transcript_file = os.path.join(index_dir, config.TRANSCRIPT_FEATURE_FILE)
-    transcripts = list(TranscriptFeature.from_genepred(open(transcript_file)))
+    transcripts = list(TranscriptFeature.parse(open(transcript_file)))
     # build a lookup table to get genome coordinates from transcript 
     # coordinates
     transcript_genome_map = build_transcript_genome_map(transcripts)
