@@ -1,0 +1,8 @@
+pipeline/bam_to_sam_pesr.py:30
+-----> add  before  if r.qname != fqrec.qname:
+# remove mate number from qname
+r.qname=r.qname
+-----> remove 35, 36
+# remove mate number from qname
+r.qname = r.qname[1:]
+
